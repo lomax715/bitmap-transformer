@@ -18,7 +18,7 @@ describe('bitmap file transformer', () => {
     it('test whole transform', () => {
         // use the BitmapTransformer class, 
         // passing in the buffer from the file read
-        const bitmap = new BitmapTransformer(buffer);
+        const bitmap = new BitmapTransformer(palletedBuffer);
 
         // call .transform(), which will modify the buffer.
         // in this api, you pass in a transformation function
