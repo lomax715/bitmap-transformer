@@ -8,19 +8,15 @@ describe('bitmap header', () => {
     let buffer = null;
     beforeEach(() => {
         buffer = fs.readFileSync('./test/test-bitmap.bmp');
-        // TODOne: read './test/test-bitmap.bmp' into buffer variable
     });
 
     it('has correct specs', () => {
-        // TODOne: read the wiki spec docs to figure out what these values should be
         assert.ok(constants.PIXEL_OFFSET);
         assert.ok(constants.BITS_PER_PIXEL_OFFSET);
         assert.ok(constants.FILE_SIZE_OFFSET);
     });
 
     it('parses header data', () => {
-        // TODOne: use the constants to populate the following properties
-        // on the BitmapHeader in its constructor.
         const header = new BitmapHeader(buffer);
         assert.equal(header.pixelOffset, 54);
         assert.equal(header.bitsPerPixel, 24);

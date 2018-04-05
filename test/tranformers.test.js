@@ -33,7 +33,6 @@ describe('transformers', () => {
         });
     });
 
-    // TODOne: add a third transformer
     it('luminous grayscale', () => {
         const transformed = lumGray({
             r: 34,
