@@ -1,6 +1,7 @@
 const assert = require('assert');
 const invert = require('../lib/invert-transformer');
 const grayscale = require('../lib/grayscale-transformer');
+const lumGray = require('../lib/lum-gray-transformer');
 
 describe('transformers', () => {
 
@@ -36,4 +37,17 @@ describe('transformers', () => {
     });
 
     // TODO: add a third transformer
+    it('luminous grayscale', () => {
+        const transformed = lumGray({
+            r: 34,
+            g: 100,
+            b: 205
+        });
+
+        assert.deepEqual(transformed, {
+            r: 93,
+            g: 93,
+            b: 93
+        });
+    });
 });
