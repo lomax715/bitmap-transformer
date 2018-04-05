@@ -1,7 +1,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const BitmapTransformer = require('../lib/bitmap-transformer');
-// const invert = require('../lib/invert-transform');
+const invert = require('../lib/invert-transformer');
 
 describe('bitmap file transformer', () => {
     
@@ -20,7 +20,6 @@ describe('bitmap file transformer', () => {
         // use the BitmapTransformer class, 
         // passing in the buffer from the file read
         const bitmap = new BitmapTransformer(buffer);
-
         // call .transform(), which will modify the buffer.
         // in this api, you pass in a transformation function
         bitmap.transform(invert);
