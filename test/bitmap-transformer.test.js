@@ -10,7 +10,7 @@ describe('bitmap file transformer', () => {
         // TODOne: read './test/test-bitmap.bmp' into buffer variable
         buffer = fs.readFileSync('./test/test-bitmap.bmp');
 
-        // TODO: If the functionality in this before test is same as 
+        // TODOne: If the functionality in this before test is same as 
         // other test, can you remove (extract) the duplication?
         // We considered different approaches and talked to Marty, concluding that the current setup is acceptable.
     });
