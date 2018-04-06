@@ -1,24 +1,35 @@
 const assert = require('assert');
+const { promisify } = require('util');
+const unlink = promisify(require('fs').unlink);
 const fs = require('fs');
 const BitmapTransformer = require('../lib/bitmap-transformer');
 const invert = require('../lib/invert-transformer');
 
 describe('bitmap file transformer', () => {
-    
-    let buffer = null;
-    beforeEach(() => {
-        buffer = fs.readFileSync('./test/test-bitmap.bmp');
 
-        // We considered different approaches and talked to Marty, concluding that the current setup is acceptable.
+    const readFile = file => (fs.readFileSync(file));
+
+    const invertedFile = './test/inverted-bitmap.bmp';
+    
+    before(() => {
+        return unlink(invertedFile)
+            .catch(err => {
+                if(err.code !== 'ENOENT') throw err;
+            }); 
+    });
+
+    let transformer = null;
+    before(() => {
+        transformer = BitmapTransformer.create('./test/test-bitmap.bmp');
     });
 
     it('test whole transform', () => {
-        const bitmap = new BitmapTransformer(buffer);
-
-        bitmap.transform(invert);
-
-        const expected = fs.readFileSync('./test/inverted-expected.bmp');
-        assert.deepEqual(bitmap.buffer, expected);
+        return transformer.transform(invert, invertedFile)
+            .then(() => {
+                const actual = readFile(invertedFile);
+                const expected = readFile('./test/inverted-expected.bmp');
+                assert.deepEqual(actual, expected);
+            });
 
         // if you don't have a "expected" file yet, you could write it 
         // out by commenting above code, using code below, and visually inspect
