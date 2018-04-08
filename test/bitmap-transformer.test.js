@@ -9,9 +9,9 @@ describe('bitmap file transformer', () => {
 
     const readFile = file => (fs.readFileSync(file));
 
-    const invertedFile = './test/inverted-bitmap.bmp';
+    const invertedFile = './test/inverted-results.bmp';
     
-    before(() => {
+    beforeEach(() => {
         return unlink(invertedFile)
             .catch(err => {
                 if(err.code !== 'ENOENT') throw err;
@@ -19,8 +19,17 @@ describe('bitmap file transformer', () => {
     });
 
     let transformer = null;
-    before(() => {
-        transformer = BitmapTransformer.create('./test/test-bitmap.bmp');
+    beforeEach(() => {
+        // transformer = BitmapTransformer.create('./test/test-bitmap.bmp');
+        return BitmapTransformer.create('./test/test-bitmap.bmp')
+            .then(newTransformer => {
+                transformer = newTransformer;
+            });
+    });
+
+    it('has a static "create" method that returns a new instance with properties "inputFile" and "header"', () => {
+        assert.equal(transformer.inputFile, './test/test-bitmap.bmp');
+        assert.deepEqual(transformer.header, { pixelOffset: 54, bitsPerPixel: 24, fileSize: 30054 });
     });
 
     it('test whole transform', () => {
@@ -30,10 +39,5 @@ describe('bitmap file transformer', () => {
                 const expected = readFile('./test/inverted-expected.bmp');
                 assert.deepEqual(actual, expected);
             });
-
-        // if you don't have a "expected" file yet, you could write it 
-        // out by commenting above code, using code below, and visually inspect
-        // the file for correctness.
-        // return fs.writeFileSync('./test/output.bmp', bitmap.buffer);
     });
 });
