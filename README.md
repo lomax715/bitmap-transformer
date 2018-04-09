@@ -1,15 +1,24 @@
 Bitmap Transformer
 ===
 
-We created a bitmap transformer with an inverted, grayscale and luminous grayscale transformation. This works for 24bitperpixel files.
+A simple bitmap transformer created as a project for Alchemy Code Lab, offering color inversion and two grayscale filters for 24-bit-per-pixel bmp files.
 
 ## Contributors
 Keli Hansen and Jack Lomax
 
 ## How it works
-```
-const bitmap = new BitmapTransformer(buffer);
-bitmap.transform(invert);
-bitmap.transform(grayscale);
-bitmap.transform(lumGray);
+```js
+const BitmapTransformer = require(bitmap-transformerjk);
+
+let transformer;
+const create = function() {
+    return BitmapTransformer.create(/*bitmapFileName*/)
+        .then(newTransformer = transformer = newTransformer);
+}
+
+const tfs = require(bitmap-transformerjk/transformations);
+
+transformer.transform(tfs.invert, /*destinationFileName*/);
+transformer.transform(tfs.grayscale, /*destinationFileName*/);
+transformer.transform(tfs.lumGray, /*destinationFileName*/);
 ```
