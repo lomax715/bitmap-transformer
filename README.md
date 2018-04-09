@@ -1,7 +1,7 @@
 Bitmap Transformer
 ===
 
-A simple bitmap transformer created as a project for Alchemy Code Lab, offering color inversion and two grayscale filters for 24-bit-per-pixel bmp files.
+bitmap-transformerjk is a simple bitmap transformer created as a project for Alchemy Code Lab, offering color inversion and two grayscale filters for 24-bit-per-pixel bmp files.
 
 ## Contributors
 Keli Hansen and Jack Lomax
