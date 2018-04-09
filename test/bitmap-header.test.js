@@ -11,11 +11,11 @@ describe('bitmap header', () => {
     });
 
     it('parses header data', () => {
-        return bitmapHeader('./test/test-bitmap.bmp')
+        return bitmapHeader('./test/sunrise.bmp')
             .then(header => {
                 assert.equal(header.pixelOffset, 54);
                 assert.equal(header.bitsPerPixel, 24);
-                assert.equal(header.fileSize, 30054);
+                assert.equal(header.fileSize, 1671656);
             });
     });
 });

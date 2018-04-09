@@ -9,7 +9,7 @@ const invert = require('../lib/invert-transformer');
 describe('bitmap file transformer', () => {
 
     const readFile = file => (fs.readFileSync(file));
-    const testFile = './test/test-bitmap.bmp';
+    const testFile = './test/sunrise.bmp';
     const invertedFile = './test/inverted-results.bmp';
     
     beforeEach(() => {
@@ -28,7 +28,7 @@ describe('bitmap file transformer', () => {
 
     it('has a static "create" method that returns a new instance with properties "inputFile" and "header"', () => {
         assert.equal(transformer.inputFile, testFile);
-        assert.deepEqual(transformer.header, { pixelOffset: 54, bitsPerPixel: 24, fileSize: 30054 });
+        assert.deepEqual(transformer.header, { pixelOffset: 54, bitsPerPixel: 24, fileSize: 1671656 });
     });
 
     it('copies the header from a bmp file to a new file', () => {
@@ -61,7 +61,7 @@ describe('bitmap file transformer', () => {
         return transformer.transform(invert, invertedFile)
             .then(() => {
                 const actual = readFile(invertedFile);
-                const expected = readFile('./test/inverted-expected.bmp');
+                const expected = readFile('./test/inverted-sunrise-expected.bmp');
                 assert.deepEqual(actual, expected);
             });
     });
