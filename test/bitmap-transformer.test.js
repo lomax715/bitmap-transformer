@@ -21,14 +21,13 @@ describe('bitmap file transformer', () => {
 
     let transformer = null;
     beforeEach(() => {
-        // transformer = BitmapTransformer.create(testFile);
         return BitmapTransformer.create(testFile)
             .then(newTransformer => transformer = newTransformer);
     });
 
     it('has a static "create" method that returns a new instance with properties "inputFile" and "header"', () => {
         assert.equal(transformer.inputFile, testFile);
-        assert.deepEqual(transformer.header, { pixelOffset: 54, bitsPerPixel: 24, fileSize: 1671656 });
+        assert.deepEqual(transformer.header, { pixelOffset: 54, bitsPerPixel: 24, fileSize: 1680056 });
     });
 
     it('copies the header from a bmp file to a new file', () => {
@@ -38,17 +37,13 @@ describe('bitmap file transformer', () => {
             return transformer.transform(invert, invertedFile)
                 .then(() => {
                     return readFrom(invertedFile, 53)
-                        .then(buffer => {
-                            generatedHeader = buffer;
-                        });
+                        .then(buffer => generatedHeader = buffer);
                 });
         }
 
         function fetchOriginalHeader() {
-            return readFrom(testFile, 53)
-                .then(buffer => {
-                    originalHeader = buffer;
-                });
+            readFrom(testFile, 53)
+                .then(buffer => originalHeader = buffer);
         }
             
         Promise.all([fetchNewHeader(), fetchOriginalHeader()])
@@ -61,7 +56,7 @@ describe('bitmap file transformer', () => {
         return transformer.transform(invert, invertedFile)
             .then(() => {
                 const actual = readFile(invertedFile);
-                const expected = readFile('./test/inverted-sunrise-expected.bmp');
+                const expected = readFile('./test/inverted-sunrise-photoshop.bmp');
                 assert.deepEqual(actual, expected);
             });
     });

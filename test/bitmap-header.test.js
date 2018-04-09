@@ -15,7 +15,7 @@ describe('bitmap header', () => {
             .then(header => {
                 assert.equal(header.pixelOffset, 54);
                 assert.equal(header.bitsPerPixel, 24);
-                assert.equal(header.fileSize, 1671656);
+                assert.equal(header.fileSize, 1680056);
             });
     });
 });
