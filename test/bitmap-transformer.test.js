@@ -36,13 +36,13 @@ describe('bitmap file transformer', () => {
         function fetchNewHeader() {
             return transformer.transform(invert, invertedFile)
                 .then(() => {
-                    return readFrom(invertedFile, 53)
+                    return readFrom(invertedFile, 54)
                         .then(buffer => generatedHeader = buffer);
                 });
         }
 
         function fetchOriginalHeader() {
-            readFrom(testFile, 53)
+            readFrom(testFile, 54)
                 .then(buffer => originalHeader = buffer);
         }
             
