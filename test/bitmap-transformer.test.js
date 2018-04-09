@@ -1,28 +1,63 @@
 const assert = require('assert');
+const { promisify } = require('util');
+const unlink = promisify(require('fs').unlink);
 const fs = require('fs');
 const BitmapTransformer = require('../lib/bitmap-transformer');
+const readFrom = require('../lib/read-from');
 const invert = require('../lib/invert-transformer');
 
 describe('bitmap file transformer', () => {
-    
-    let buffer = null;
-    beforeEach(() => {
-        buffer = fs.readFileSync('./test/test-bitmap.bmp');
 
-        // We considered different approaches and talked to Marty, concluding that the current setup is acceptable.
+    const readFile = file => (fs.readFileSync(file));
+    const testFile = './test/sunrise.bmp';
+    const invertedFile = './test/inverted-results.bmp';
+    
+    beforeEach(() => {
+        return unlink(invertedFile)
+            .catch(err => {
+                if(err.code !== 'ENOENT') throw err;
+            }); 
     });
 
-    it('test whole transform', () => {
-        const bitmap = new BitmapTransformer(buffer);
+    let transformer = null;
+    beforeEach(() => {
+        return BitmapTransformer.create(testFile)
+            .then(newTransformer => transformer = newTransformer);
+    });
 
-        bitmap.transform(invert);
+    it('has a static "create" method that returns a new instance with properties "inputFile" and "header"', () => {
+        assert.equal(transformer.inputFile, testFile);
+        assert.deepEqual(transformer.header, { pixelOffset: 54, bitsPerPixel: 24, fileSize: 1680056 });
+    });
 
-        const expected = fs.readFileSync('./test/inverted-expected.bmp');
-        assert.deepEqual(bitmap.buffer, expected);
+    it('copies the header from a bmp file to a new file', () => {
+        let originalHeader, generatedHeader;
 
-        // if you don't have a "expected" file yet, you could write it 
-        // out by commenting above code, using code below, and visually inspect
-        // the file for correctness.
-        // return fs.writeFileSync('./test/output.bmp', bitmap.buffer);
+        function fetchNewHeader() {
+            return transformer.transform(invert, invertedFile)
+                .then(() => {
+                    return readFrom(invertedFile, 53)
+                        .then(buffer => generatedHeader = buffer);
+                });
+        }
+
+        function fetchOriginalHeader() {
+            readFrom(testFile, 53)
+                .then(buffer => originalHeader = buffer);
+        }
+            
+        Promise.all([fetchNewHeader(), fetchOriginalHeader()])
+            .then(() => {
+                assert.deepEqual(originalHeader, generatedHeader);
+            });
+    });
+
+    it('can invert a bitmap image', () => {
+        return transformer.transform(invert, invertedFile)
+            .then(() => {
+                const actual = readFile(invertedFile);
+                const expected = readFile('./test/inverted-sunrise-photoshop.bmp');
+                assert.deepEqual(actual, expected);
+            });
     });
 });
