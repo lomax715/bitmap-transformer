@@ -4,7 +4,6 @@ const unlink = promisify(require('fs').unlink);
 const fs = require('fs');
 const BitmapTransformer = require('../lib/bitmap-transformer');
 const readFrom = require('../lib/read-from');
-const bitmapHeader = require('../lib/bitmap-header');
 const invert = require('../lib/invert-transformer');
 
 describe('bitmap file transformer', () => {
@@ -58,7 +57,7 @@ describe('bitmap file transformer', () => {
             });
     });
 
-    it.skip('can invert a bitmap image', () => {
+    it('can invert a bitmap image', () => {
         return transformer.transform(invert, invertedFile)
             .then(() => {
                 const actual = readFile(invertedFile);
