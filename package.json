@@ -1,6 +1,6 @@
 {
   "name": "bitmap-transformerjk",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "We created a bitmap transformer with an inverted, grayscale and luminous grayscale transformation. This works for 24bitperpixel files.",
   "main": "index.js",
   "directories": {

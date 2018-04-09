@@ -8,7 +8,7 @@ Keli Hansen and Jack Lomax
 
 ## How it works
 ```js
-const BitmapTransformer = require(bitmap-transformerjk);
+const BitmapTransformer = require('bitmap-transformerjk');
 
 let transformer;
 const create = function() {
@@ -16,7 +16,7 @@ const create = function() {
         .then(newTransformer = transformer = newTransformer);
 }
 
-const tfs = require(bitmap-transformerjk/transformations);
+const tfs = require('bitmap-transformerjk/transformations');
 
 transformer.transform(tfs.invert, /*destinationFileName*/);
 transformer.transform(tfs.grayscale, /*destinationFileName*/);
