@@ -1,1 +1,1 @@
-module.exports = require('../lib/bitmap-transformer');
+module.exports = require('./lib/bitmap-transformer');
